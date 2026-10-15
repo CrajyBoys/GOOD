@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy Birthday!</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: white;
+
+            /* Colorful birthday background */
+            background: linear-gradient(
+                135deg,
+                #ff4e8a,
+                #8e44ff,
+                #3478f6,
+                #ff9a44
+            );
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+        }
+
+        /* Colorful glowing circles */
+        .glow {
+            position: fixed;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .glow1 {
+            background: #ffec63;
+            top: 5%;
+            left: 5%;
+        }
+
+        .glow2 {
+            background: #ff42da;
+            bottom: 5%;
+            right: 5%;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 35px 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .birthday-card {
+            width: 100%;
+            max-width: 780px;
+            padding: 45px 30px;
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.16);
+            border: 2px solid rgba(255, 255, 255, 0.55);
+            border-radius: 30px;
+
+            backdrop-filter: blur(14px);
+            box-shadow: 0 15px 60px rgba(40, 0, 80, 0.25);
+
+            animation: cardAppear 1.2s ease;
+        }
+
+        .top-label {
+            display: inline-block;
+            padding: 9px 20px;
+            margin-bottom: 22px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.6);
+            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .cake {
+            font-size: clamp(65px, 12vw, 100px);
+            margin-bottom: 10px;
+            animation: cakeBounce 2s ease-in-out infinite;
+        }
+
+        .happy {
+            font-size: clamp(35px, 7vw, 65px);
+            line-height: 1.2;
+            font-weight: 900;
+            background: linear-gradient(
+                90deg,
+                #fff66b,
+                #ffffff,
+                #ffb5ec,
+                #8bffff
+            );
+
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            filter: drop-shadow(0 5px 12px rgba(70,0,100,0.25));
+            animation: textShine 4s linear infinite;
+        }
+
+        .birthday {
+            font-size: clamp(38px, 8vw, 75px);
+            font-weight: 900;
+            color: #fff36d;
+            margin-bottom: 20px;
+            text-shadow:
+                0 3px 0 #ff659c,
+                0 0 25px rgba(255,255,255,0.4);
+        }
+
+        .name {
+            display: inline-block;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            padding: 10px 18px;
+            margin-bottom: 25px;
+            border-radius: 18px;
+
+            color: white;
+            font-size: clamp(28px, 6vw, 48px);
+            font-weight: 800;
+
+            background: linear-gradient(
+                90deg,
+                #ff398b,
+                #a34dff,
+                #2dcfff
+            );
+
+            box-shadow: 0 5px 25px rgba(70,0,120,0.3);
+        }
+
+        .divider {
+            width: 120px;
+            height: 5px;
+            margin: 0 auto 25px;
+            border-radius: 10px;
+            background: linear-gradient(
+                90deg,
+                #fff56c,
+                #ff80d5,
+                #72ffff
+            );
+        }
+
+        .wish {
+            max-width: 600px;
+            margin: 0 auto 25px;
+            font-size: clamp(16px, 3vw, 21px);
+            line-height: 1.9;
+            color: #ffffff;
+        }
+
+        .highlight {
+            color: #fff36d;
+            font-weight: bold;
+        }
+
+        .emoji-row {
+            font-size: clamp(24px, 5vw, 38px);
+            letter-spacing: 5px;
+            margin-bottom: 28px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 50px;
+
+            color: #7b27b8;
+            background: #ffffff;
+
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+
+            box-shadow: 0 5px 20px rgba(50,0,90,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .back-button:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 10px 28px rgba(50,0,90,0.3);
+        }
+
+        .footer {
+            margin-top: 28px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 1px;
+        }
+
+        /* Floating birthday balloons */
+        .balloon {
+            position: fixed;
+            bottom: -150px;
+            width: 48px;
+            height: 62px;
+            border-radius: 50% 50% 45% 45%;
+            opacity: 0.75;
+            z-index: 0;
+            animation: balloonUp 12s linear infinite;
+            pointer-events: none;
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            width: 1px;
+            height: 65px;
+            background: rgba(255,255,255,0.75);
+            left: 50%;
+            top: 60px;
+        }
+
+        .balloon1 {
+            left: 8%;
+            background: #ffeb55;
+            animation-delay: 0s;
+        }
+
+        .balloon2 {
+            left: 85%;
+            background: #70fff2;
+            animation-delay: 3s;
+        }
+
+        .balloon3 {
+            left: 25%;
+            background: #ff8fd7;
+            animation-delay: 6s;
+        }
+
+        .balloon4 {
+            left: 72%;
+            background: #a8ff77;
+            animation-delay: 8s;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes cakeBounce {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+
+        @keyframes textShine {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes balloonUp {
+            from {
+                transform: translateY(0) rotate(-8deg);
+            }
+            to {
+                transform: translateY(-125vh) rotate(12deg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .birthday-card {
+                padding: 35px 18px;
+            }
+
+            .top-label {
+                letter-spacing: 2px;
+                font-size: 11px;
+            }
+
+            .balloon {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+
+    <!-- Animated balloons -->
+    <div class="balloon balloon1"></div>
+    <div class="balloon balloon2"></div>
+    <div class="balloon balloon3"></div>
+    <div class="balloon balloon4"></div>
+
+    <main class="container">
+        <section class="birthday-card">
+
+            <div class="top-label">
+                ✨ A SPECIAL DAY ✨
+            </div>
+
+            <div class="cake">🎂</div>
+
+            <h1 class="happy">
+                HAPPY
+            </h1>
+
+            <h2 class="birthday">
+                BIRTHDAY!
+            </h2>
+
+            <!-- The name entered on index.html appears here -->
+            <div class="name" id="birthdayName">
+                Birthday Star!
+            </div>
+
+            <div class="divider"></div>
+
+            <p class="wish">
+                🎉 May your special day be filled with
+                <span class="highlight">happiness, laughter,</span>
+                and unforgettable memories!
+
+                <br><br>
+
+                May all your dreams shine bright,
+                may success follow you everywhere,
+                and may the year ahead bring you
+                <span class="highlight">love, joy, and endless opportunities.</span>
+
+                <br><br>
+
+                Keep smiling, keep shining, and keep being amazing!
+                Wishing you the most wonderful birthday ever! 💖
+            </p>
+
+            <div class="emoji-row">
+                🎈 🎁 🥳 🎊 💖
+            </div>
+
+            <a class="back-button" href="index.html">
+                🏠 Back to Home
+            </a>
+
+            <div class="footer">
+                MADE WITH ❤️ AND LOTS OF WISHES
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // Get the name entered on index.html
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
+        const name = (params.get("name") || "").trim();
+
+        const birthdayName =
+            document.getElementById("birthdayName");
+
+        if (name) {
+            birthdayName.textContent = "🎉 " + name + " 🎉";
+            document.title = "Happy Birthday, " + name + "!";
+        } else {
+            birthdayName.textContent = "Birthday Star!";
+            document.title = "Happy Birthday!";
+        }
+    </script>
+
+</body>
+</html>
