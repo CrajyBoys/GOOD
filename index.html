@@ -1,2 +1,261 @@
-# improved-goggles
-Small SLM
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | Enter Your Name</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            color: white;
+            background: #071126;
+        }
+
+        /* Full-screen video background */
+        #bg-video {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Dark overlay */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(
+                135deg,
+                rgba(5, 12, 35, 0.72),
+                rgba(12, 10, 35, 0.30),
+                rgba(0, 0, 0, 0.65)
+            );
+        }
+
+        .brand {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #48f5ff;
+            text-shadow: 0 0 15px #00d9ff;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .welcome-card {
+            width: 100%;
+            max-width: 570px;
+            text-align: center;
+            padding: 45px 35px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 45px rgba(0, 220, 255, 0.13);
+            animation: appear 1.2s ease;
+        }
+
+        .hello {
+            font-size: clamp(45px, 8vw, 72px);
+            font-weight: 800;
+            background: linear-gradient(90deg, #43f5ff, #b18cff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: clamp(17px, 3vw, 23px);
+            margin-bottom: 32px;
+            color: #f2f5ff;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid #43dfff;
+            border-radius: 15px;
+            padding: 5px 18px;
+            margin-bottom: 24px;
+            background: rgba(4, 10, 30, 0.48);
+            box-shadow: 0 0 18px rgba(0, 220, 255, 0.15);
+            transition: 0.3s;
+        }
+
+        .input-box:focus-within {
+            box-shadow: 0 0 25px rgba(0, 220, 255, 0.45);
+        }
+
+        .input-box span {
+            font-size: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 0;
+            font-size: 17px;
+            color: white;
+            border: none;
+            outline: none;
+            background: transparent;
+        }
+
+        input::placeholder {
+            color: #c6ccdf;
+        }
+
+        button {
+            padding: 15px 42px;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(90deg, #873cff, #12dafa);
+            box-shadow: 0 0 22px rgba(65, 180, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 30px rgba(65, 220, 255, 0.55);
+        }
+
+        #message {
+            display: none;
+            margin-top: 28px;
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: bold;
+            line-height: 1.5;
+            color: #63f5ff;
+            text-shadow: 0 0 18px rgba(0, 220, 255, 0.6);
+        }
+
+        .small-text {
+            margin-top: 24px;
+            color: #d6d9e8;
+            font-size: 13px;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand {
+                top: 18px;
+                left: 18px;
+                font-size: 17px;
+            }
+
+            .welcome-card {
+                padding: 35px 20px;
+            }
+
+            button {
+                padding: 14px 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Put background.mp4 in the same folder -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+
+    <div class="brand">✦ YOUR WORLD</div>
+
+    <main class="container">
+        <section class="welcome-card">
+
+            <h1 class="hello">Hello!</h1>
+
+            <p class="subtitle">
+                Please enter your name 😊
+            </p>
+
+            <form id="nameForm">
+                <div class="input-box">
+                    <span>♙</span>
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter your name..."
+                        maxlength="50"
+                        autocomplete="given-name"
+                        required
+                    >
+                </div>
+
+                <button type="submit">
+                    Continue &nbsp; →
+                </button>
+            </form>
+
+            <div id="message" aria-live="polite"></div>
+
+            <p class="small-text">
+                ✨ Every great journey starts with a hello.
+            </p>
+
+        </section>
+    </main>
+
+  
+<script>
+    const form = document.getElementById("nameForm");
+    const input = document.getElementById("username");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const name = input.value.trim();
+
+        if (name === "") {
+            input.focus();
+            return;
+        }
+
+        // Open the second page with the entered name
+        window.location.href =
+            "welcome.html?name=" + encodeURIComponent(name);
+    });
+</script>
+</body>
+</html>
